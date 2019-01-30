@@ -9,6 +9,7 @@
  *****************************************************************************
  **
  **  Copyright (C) 2011-2016 Synaptics Incorporated. All rights reserved.
+ * Copyright (C) 2018 XiaoMi, Inc.
  **
  **
  ** This file contains information that is proprietary to Synaptics
@@ -225,6 +226,37 @@ static int vfsspi_selectDrdyNtfType(struct vfsspi_devData *vfsSpiDev,
 	unsigned long arg);
 
 static inline void shortToLittleEndian(char *buf, size_t len);
+
+
+#if 0
+int pinctrl_init(struct vfsspi_devData* fp_dev)
+{
+	int ret = 0;
+	struct device *dev = &fp_dev->spi->dev;
+
+	fp_dev->fp_pinctrl = devm_pinctrl_get(dev);
+	if (IS_ERR_OR_NULL(fp_dev->fp_pinctrl)) {
+		dev_err(dev, "Target does not use pinctrl\n");
+		ret = PTR_ERR(fp_dev->fp_pinctrl);
+		goto err;
+	}
+
+	fp_dev->gpio_state_reset =
+		pinctrl_lookup_state(fp_dev->fp_pinctrl, "fp_reset_init");
+	if (IS_ERR_OR_NULL(fp_dev->gpio_state_reset)) {
+		dev_err(dev, "Cannot get active pinstate\n");
+		ret = PTR_ERR(fp_dev->gpio_state_reset);
+		goto err;
+	}
+	pinctrl_select_state(fp_dev->fp_pinctrl,
+				fp_dev->gpio_state_reset);
+	return 0;
+err:
+	fp_dev->fp_pinctrl = NULL;
+	fp_dev->gpio_state_reset= NULL;
+	return ret;
+}
+#endif
 
 
 static struct of_device_id synaptics_fingerprint_table[] = {
@@ -1741,10 +1773,10 @@ int vfsspi_open(struct inode *inode, struct file *filp)
 		we don't have called vfsspi_devUnInit() in this place. that is to say,
 		if vfsspi_gpioInit() is failed and vfsspi_open() failed , we don't need
 		to call vfsspi_devUnInit() to release resources.*/
-
+		//vfsspi_devUnInit(vfsSpiDev); 
 		return status;
 	}
-
+	//reset
 	vfsspi_hardReset(vfsSpiDev);
 
 	printk("%s: Set voltage on vcc_spi for sync fingerprint\n", __func__);
@@ -1824,8 +1856,8 @@ static int vfsspi_probe(struct platform_device *spi)
 		vfsspi_devUnInit(vfsSpiDev);
 		goto cleanup;
 	}
-
-
+	//reset
+	//pinctrl_init(vfsSpiDev);
 	vfsspi_hardReset(vfsSpiDev);
 	/*vfsSpiDev->vreg = regulator_get(&spi->dev,"vcc_spi");
 	if (!vfsSpiDev->vreg) {
