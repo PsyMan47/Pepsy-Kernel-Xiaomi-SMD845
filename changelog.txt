@@ -1,0 +1,10 @@
+- 100% MIUI compatible
+- Upstreamed to Linux 4.9.155
+- Fixed OIS
+- Fixed In-Display fingerprint (MI 8 Explorer)
+- Updated fingerprint drivers
+- Added Sound Control
+- Added Vibration Control
+- Added Anxiety iosched
+- Implemented Dynamic SchedTune Boost v3
+- Added Blu Schedutil governor

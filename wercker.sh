@@ -9,7 +9,7 @@ git clone https://github.com/SlimCAF/proprietary_vendor_qcom_sdclang-6.0_linux-x
 
 curl -s -X POST https://api.telegram.org/bot$BOT_API_KEY/sendMessage -d text="$NAME$VERSION build started!" -d chat_id=@pepsykernel;
 curl -s -X POST https://api.telegram.org/bot$BOT_API_KEY/sendMessage -d text="Changelog:" -d chat_id=@pepsykernel;
-curl -s -X POST https://api.telegram.org/bot$BOT_API_KEY/sendMessage -d text="$(git log --pretty=format:'%h : %s' -15)" -d chat_id=@pepsykernel;
+curl -s -X POST https://api.telegram.org/bot$BOT_API_KEY/sendMessage -d text="$(cat changelog.txt)" -d chat_id=@pepsykernel;
 
 bash beryllium.sh
 bash dipper.sh
