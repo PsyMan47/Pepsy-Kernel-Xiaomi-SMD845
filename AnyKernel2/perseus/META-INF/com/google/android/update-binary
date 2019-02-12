@@ -134,32 +134,32 @@ if [ "$(file_getprop anykernel.sh do.devicecheck)" == 1 ]; then
   fi;
 fi;
 
-supported_ver="$(file_getprop anykernel.sh supported.versions | $bb tr -d '[:space:]')";
-if [ "$supported_ver" ]; then
-  ui_print "Checking Android version...";
-  android_ver="$(file_getprop /system/build.prop ro.build.version.release)";
-  if [ "$(echo $supported_ver | $bb grep -)" ]; then
-    lo_ver=$(echo $supported_ver | $bb cut -d- -f1);
-    hi_ver=$(echo $supported_ver | $bb cut -d- -f2);
-    if [ "$(echo -e "$(int2ver $hi_ver)\n$(int2ver $lo_ver)\n$(int2ver $android_ver)" | $bb sort -g | $bb grep -n "$(int2ver $android_ver)" | $bb grep '^2:')" ]; then
-      supported=1;
-    fi;
-  else
-    for ver in $(echo $supported_ver | $bb sed 's;,; ;g'); do
-      if [ "$(int2ver $ver)" == "$(int2ver $android_ver)" ]; then
-        supported=1;
-        break;
-      fi;
-    done;
-  fi;
-  if [ "$supported" ]; then
-    ui_print "$android_ver";
-    ui_print " ";
-  else
-    ui_print " ";
-    abort "Unsupported Android version. Aborting...";
-  fi;
-fi;
+# supported_ver="$(file_getprop anykernel.sh supported.versions | $bb tr -d '[:space:]')";
+# if [ "$supported_ver" ]; then
+#   ui_print "Checking Android version...";
+#   android_ver="$(file_getprop /system/build.prop ro.build.version.release)";
+#   if [ "$(echo $supported_ver | $bb grep -)" ]; then
+#     lo_ver=$(echo $supported_ver | $bb cut -d- -f1);
+#     hi_ver=$(echo $supported_ver | $bb cut -d- -f2);
+#     if [ "$(echo -e "$(int2ver $hi_ver)\n$(int2ver $lo_ver)\n$(int2ver $android_ver)" | $bb sort -g | $bb # grep -n "$(int2ver $android_ver)" | $bb grep '^2:')" ]; then
+#       supported=1;
+#     fi;
+#   else
+#     for ver in $(echo $supported_ver | $bb sed 's;,; ;g'); do
+#       if [ "$(int2ver $ver)" == "$(int2ver $android_ver)" ]; then
+#         supported=1;
+#         break;
+#       fi;
+#     done;
+#   fi;
+#   if [ "$supported" ]; then
+#     ui_print "$android_ver";
+#     ui_print " ";
+#   else
+#     ui_print " ";
+#     abort "Unsupported Android version. Aborting...";
+#   fi;
+# fi;
 
 ui_print "Installing...";
 for i in $($bb --list); do
