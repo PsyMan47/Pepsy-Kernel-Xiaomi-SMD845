@@ -20,6 +20,8 @@ export CC=/pipeline/build/root/toolchain/proprietary_vendor_qcom_sdclang-6.0_lin
 export CXX=/pipeline/build/root/toolchain/proprietary_vendor_qcom_sdclang-6.0_linux-x86_64/bin/clang++
 export CLANG_TRIPLE=aarch64-linux-gnu-
 export CROSS_COMPILE=$TOOLCHAINDIR/bin/aarch64-linux-android-
+export USE_CCACHE=1
+export CCACHE_DIR=../.ccache
 
 make clean && make mrproper
 make dipper_defconfig
