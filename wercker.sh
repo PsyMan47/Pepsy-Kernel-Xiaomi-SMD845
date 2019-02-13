@@ -14,7 +14,7 @@ curl -s -X POST https://api.telegram.org/bot$BOT_API_KEY/sendMessage -d text="$(
 bash beryllium.sh
 bash dipper.sh
 bash equuleus.sh
-bash perseus.sh
+# bash perseus.sh
 bash polaris.sh
 bash ursa.sh
 
